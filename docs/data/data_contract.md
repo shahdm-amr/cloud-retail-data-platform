@@ -28,11 +28,21 @@ customers: customer_id | orders: order_id | order_items: (order_id, order_item_i
 ## 5. Bronze
 Raw files are kept unchanged, with original names and types.
 
-## 6. Bronze folder mapping (01-raw/)
-| Folder | Files |
+## 6. Bronze location (actual)
+
+Container: `ingestion` on storage account `euidatapipe01` (flat Blob, not ADLS Gen2).
+Path pattern: `wasbs://ingestion@euidatapipe01.blob.core.windows.net/bronze/olist/<file>.csv`
+
+All 9 raw files are in one folder, `bronze/olist/`, unchanged:
+
+| Logical group | Files |
 |---|---|
-| sales/ | orders, order_items, order_payments |
-| products/ | products, product_category_name_translation |
-| customers/ | customers |
-| stores/ | sellers |
-| (pending agreement) | order_reviews, geolocation |
+| sales | olist_orders_dataset.csv, olist_order_items_dataset.csv, olist_order_payments_dataset.csv |
+| products | olist_products_dataset.csv, product_category_name_translation.csv |
+| customers | olist_customers_dataset.csv |
+| stores (sellers) | olist_sellers_dataset.csv |
+| pending agreement | olist_order_reviews_dataset.csv, olist_geolocation_dataset.csv |
+
+Next layers (same container): `silver/`, then `gold/`.
+Access tokens are shared privately and must never be committed to GitHub.
+Note: if ADLS Gen2 is enabled later, paths change from `wasbs://` to `abfss://`.
